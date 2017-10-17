@@ -11,10 +11,10 @@ var app = express();
 app.set("view engine","ejs");
 
 var connection = mysql.createConnection({
-    host: DBHOST,
-    user: DBUSER,
-    password: DBPASSWORD,
-    database: DB
+    host: process.env.DBHOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPASSWORD,
+    database: process.env.DB
 });
 
 const publicPath = path.join(__dirname + "public");
@@ -28,7 +28,17 @@ app.use(session({secret: "**Dennis is cool*??",resave:true,saveUninitialized:tru
 
 
 
+connection.query("select * from user", function(err,results){
+    if(err){
+        console.log("error",err);
+    }
+    else
+    {
+        console.log("Results",results);
+    }
 
+    console.log("PASSYE " + process.env.DBPASSWORD);
+});
 
 
 app.listen(port, () => {
